@@ -2,9 +2,9 @@ import React from "react";
 // import logo from "/home/admin1/Desktop/my-app/src/image/units_of_measure.gif";
 import "./App.css";
 import Title from './title'
-import Text from './text'
+import DropdownUnitValue from './dropdownUnitValue'
+ import Text from './text'
 import Dropdown from './dropdown'
-
 
 function App() {
   
@@ -20,6 +20,9 @@ function App() {
           <Text></Text>
           <label id="labels">=</label>
           <Text></Text>
+          </div>
+          <div>
+          <button type="submit">submit</button>
         </div>
       </div>
 
