@@ -13,7 +13,7 @@ export default class dropdown extends Component {
             firstUnit: "",
             secondUnit: "",
             unitValue1: 0,
-            unitValue2: 0
+            result: 0
         };
     }
 
@@ -23,9 +23,13 @@ export default class dropdown extends Component {
         this.setState({ unit: event.target.value });
     }
 
+    getValue = (event) => {
+        this.setState({ unitValue1: event.target.value });
+
+    }
 
     buttonClick = () => {
-        
+
         var data = {
             firstUnit: this.state.firstUnit,
             secondUnit: this.state.secondUnit,
@@ -35,18 +39,19 @@ export default class dropdown extends Component {
         configuration(data)
             .then(response => {
                 console.log("success  ", response.data);
+                this.setState({ result: response.data.data})
             }).catch((err) => {
                 console.log("Something went wrong")
             })
     }
 
-    handleFirstUnit=(val)=>{
-        this.setState({firstUnit:val})
+    handleFirstUnit = (val) => {
+        this.setState({ firstUnit: val })
 
     }
 
-    handleSecondUnit=(val)=>{
-        this.setState({secondUnit:val})
+    handleSecondUnit = (val) => {
+        this.setState({ secondUnit: val })
     }
     render() {
         return (
@@ -62,9 +67,14 @@ export default class dropdown extends Component {
 
                 </div>
                 <div className="dropdownChild">
-                    <Units unit={this.state.unit} firstUnit={this.handleFirstUnit} secondUnit={this.handleSecondUnit}/>
+                    <Units unit={this.state.unit} firstUnit={this.handleFirstUnit} secondUnit={this.handleSecondUnit} />
                 </div>
-                    <Text></Text>
+                <div className="textValue">
+
+                    <input type="text" id="tName" name="name" placeholder="value" onChange={this.getValue} />
+                    <label id="labels">=</label>
+                    <input type="text" id="tName" name="name" placeholder="value" value={this.state.result} />
+                </div>
                 <div>
                     <button type="submit" onClick={this.buttonClick}>submit</button>
                 </div>
