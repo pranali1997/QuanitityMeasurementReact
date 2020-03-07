@@ -2,8 +2,6 @@ import React from 'react';
 import './App.css'
 import quantityJSON from './quantityMeasurement.json'
 import configuration from './configuration/configuration'
-import Units from "./dropdownUnitValue"
-import Text from './text'
 
 
 var unitType;
@@ -15,11 +13,10 @@ class dropdownUnitValue extends React.Component {
         super(props);
         this.state = {
             type: props.unit,
-            firstUnit: props.firstUnit,
-            secondUnit: props.secondUnit,
+            firstUnit: '',
+            secondUnit: '',
             unitValue1: props.unitValue1,
-            unitValue2: props.unitValue2,
-            unitType2: ''
+            unitValue2: props.unitValue2
         }
     }
 
@@ -29,29 +26,23 @@ class dropdownUnitValue extends React.Component {
         this.setState({ unit: event.target.value });
     }
 
-    buttonClick = () => {
-        var data = {
-            firstUnit: this.state.firstUnit,
-            secondUnit: this.state.secondUnit,
-            unitValue1: this.state.unitValue
-        }
-        configuration(data)
-            .then(response => {
-                console.log("success  ", response.data);
-            }).catch((err) => {
-                console.log("Something went wrong")
-            })
-    }
     componentWillReceiveProps(props) {
         this.setState({ type: props.unit })
     }
 
-    handleChange = (event) => {
+    handleFirstUnitChange = (event) => {
 
         console.log("handke change--> ", event.target.value);
-        this.setState({ unitType2: event.target.value })
-        this.props.unitType2(this.state.unitType2)
+        this.setState({ firstUnit: event.target.value })
+        this.props.firstUnit(event.target.value )
     }
+
+    handleSecondUnitChange = (event) => {
+        console.log("handke change--> ", event.target.value);
+        this.setState({ secondUnit: event.target.value })
+        this.props.secondUnit(event.target.value )
+    }
+
     render() {
         var emptyInput = "select-value";
         var type = this.state.type
@@ -63,17 +54,18 @@ class dropdownUnitValue extends React.Component {
             }
         }
         return (
-             
-            <div>
-                 <select className="dropdownMain"
-                    onChange={(event) => this.handleChange(event)}>
+
+            <div className="dropdownChild">
+                <select className="dropdownMain"
+                    onChange={(event) => this.handleFirstUnitChange(event)}>
                     <option value="N/A">TYPE</option>
                     <option value={unitType[0]}>{unitType[0]}</option>
                     <option value={unitType[1]}>{unitType[1]}</option>
                     <option value={unitType[2] || emptyInput}>{unitType[2] || emptyInput}</option>
                     <option value={unitType[3] || emptyInput}>{unitType[3] || emptyInput}</option>
                 </select>
-                <select>
+                <label id="labels">&#x21c4;</label>
+                <select className="dropdownMain" onChange={(event) => this.handleSecondUnitChange(event)}>
                     <option value="N/A">TYPE</option>
                     <option value={unitType[0]}>{unitType[0]}</option>
                     <option value={unitType[1]}>{unitType[1]}</option>

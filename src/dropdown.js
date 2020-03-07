@@ -10,9 +10,9 @@ export default class dropdown extends Component {
         super(props)
         this.state = {
             unit: " ",
-            firstUnit: "INCH",
-            secondUnit: "INCH",
-            unitValue1: this.props.val,
+            firstUnit: "",
+            secondUnit: "",
+            unitValue1: 0,
             unitValue2: 0
         };
     }
@@ -23,16 +23,15 @@ export default class dropdown extends Component {
         this.setState({ unit: event.target.value });
     }
 
-    handleUnitType2(val) {
-        this.setState({ secondUnit: val })
-    }
 
     buttonClick = () => {
+        
         var data = {
             firstUnit: this.state.firstUnit,
             secondUnit: this.state.secondUnit,
-            unitValue1: this.state.unitValue
+            unitValue1: this.state.unitValue1
         }
+
         configuration(data)
             .then(response => {
                 console.log("success  ", response.data);
@@ -40,29 +39,32 @@ export default class dropdown extends Component {
                 console.log("Something went wrong")
             })
     }
+
+    handleFirstUnit=(val)=>{
+        this.setState({firstUnit:val})
+
+    }
+
+    handleSecondUnit=(val)=>{
+        this.setState({secondUnit:val})
+    }
     render() {
         return (
             <div className="dropdownMain">
                 <div className="dropdown">
                     <select onChange={this.getUnit}>
                         <option value="N/A">UNIT</option>
-                        <option value="Length">Length</option>
-                        <option value="Volume">Volume</option>
-                        <option value="Weight">Weight</option>
-                        <option value="Temperature">Temperature</option>
+                        <option value="0">Length</option>
+                        <option value="1">Volume</option>
+                        <option value="2">Weight</option>
+                        <option value="3">Temperature</option>
                     </select>
 
                 </div>
                 <div className="dropdownChild">
-                    <Units unit={this.state.unit} unitType2={this.handleUnitType2} />
-                    <label id="labels">&#x21c4;</label>
-                    <Units unit={this.state.unit} />
+                    <Units unit={this.state.unit} firstUnit={this.handleFirstUnit} secondUnit={this.handleSecondUnit}/>
                 </div>
-                <div className="textValue">
                     <Text></Text>
-                    <label id="labels">=</label>
-                    <Text></Text>
-                </div>
                 <div>
                     <button type="submit" onClick={this.buttonClick}>submit</button>
                 </div>

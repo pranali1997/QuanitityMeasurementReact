@@ -16,14 +16,7 @@ function App() {
         <div className="dropdownMain">
           <Dropdown></Dropdown>
         </div>
-        <div className="textValue">
-          <Text></Text>
-          <label id="labels">=</label>
-          <Text></Text>
-          </div>
-          <div>
-          <button type="submit">submit</button>
-        </div>
+       
       </div>
 
     </div>
