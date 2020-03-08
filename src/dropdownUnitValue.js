@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css'
 import quantityJSON from './quantityMeasurement.json'
-import configuration from './configuration/configuration'
 
 
 var unitType;
@@ -12,7 +11,7 @@ class dropdownUnitValue extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            type: props.unit,
+            unit: '',
             firstUnit: '',
             secondUnit: '',
             unitValue1: props.unitValue1,
@@ -27,30 +26,36 @@ class dropdownUnitValue extends React.Component {
     }
 
     componentWillReceiveProps(props) {
-        this.setState({ type: props.unit })
+        this.setState({ unit: props.unit })
     }
 
     handleFirstUnitChange = (event) => {
 
-        console.log("handke change--> ", event.target.value);
+        console.log("handle change--> ", event.target.value);
         this.setState({ firstUnit: event.target.value })
         this.props.firstUnit(event.target.value )
     }
 
     handleSecondUnitChange = (event) => {
-        console.log("handke change--> ", event.target.value);
+        console.log("handle change--> ", event.target.value);
         this.setState({ secondUnit: event.target.value })
         this.props.secondUnit(event.target.value )
     }
 
     render() {
         var emptyInput = "select-value";
-        var type = this.state.type
+        var unit = this.state.unit
         var keys = Object.keys(quantityJSON);
+        console.log("unit Type===>",keys);
+        
 
         for (var i = 0; i < keys.length; i++) {
-            if (type == i) {
+            if (unit == i) {
                 unitType = Object.keys(quantityJSON[keys[i]])
+                console.log(keys[i],'keys of json file');
+                
+                console.log('keys keys of json',unitType);
+                
             }
         }
         return (

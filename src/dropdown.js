@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.css'
 import Units from "./dropdownUnitValue"
-import Text from './text'
 import configuration from '../src/configuration/configuration'
 
 
@@ -9,7 +8,7 @@ export default class dropdown extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            unit: " ",
+            unit: "",
             firstUnit: "",
             secondUnit: "",
             unitValue1: 0,
@@ -17,10 +16,10 @@ export default class dropdown extends Component {
         };
     }
 
-    getUnit = event => {
-        console.log("type--> ", event.target.value);
-
-        this.setState({ unit: event.target.value });
+    getUnit = async event => {
+        await this.setState({ unit: event.target.value });
+        console.log("in getUnit--->",this.state.unit);
+        
     }
 
     getValue = (event) => {
@@ -31,10 +30,13 @@ export default class dropdown extends Component {
     buttonClick = () => {
 
         var data = {
+            unit:this.state.unit,
             firstUnit: this.state.firstUnit,
             secondUnit: this.state.secondUnit,
             unitValue1: this.state.unitValue1
         }
+        console.log("button chicl---------->",data);
+        
 
         configuration(data)
             .then(response => {
@@ -47,22 +49,22 @@ export default class dropdown extends Component {
 
     handleFirstUnit = (val) => {
         this.setState({ firstUnit: val })
-
     }
 
     handleSecondUnit = (val) => {
         this.setState({ secondUnit: val })
     }
     render() {
+        
         return (
             <div className="dropdownMain">
                 <div className="dropdown">
                     <select onChange={this.getUnit}>
                         <option value="N/A">UNIT</option>
-                        <option value="0">Length</option>
-                        <option value="1">Volume</option>
-                        <option value="2">Weight</option>
-                        <option value="3">Temperature</option>
+                        <option value="0">LENGTH</option>
+                        <option value="1">VOLUME</option>
+                        <option value="2">WEIGHT</option>
+                        <option value="3">TEMPERATURE</option>
                     </select>
 
                 </div>

@@ -11,7 +11,7 @@
         "GALLON":1000,
         "MILLILITER":0.001
     },
-    "WEIGHT":{
+    "wEIGHT":{
         "KILOGRAM":1,
         "GRAM":1000,
         "TONNE":0.001
