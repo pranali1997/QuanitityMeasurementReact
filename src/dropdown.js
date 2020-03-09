@@ -27,21 +27,17 @@ export default class dropdown extends Component {
     getUnit = async event => {
         await this.setState({ unit: event.target.value });
 
-        console.log("in getUnit--->",this.state.unit);
         var typeObj = {
             typeUnits : this.state.unit
         }
-        console.log("typeOnbyyyyyyyyyyyyyy",typeObj);
         
         getUnitBasicUnitType(typeObj)
         .then(response=>{
-            console.log("response data for second api",response.data.data);
             this.setState({
                 typeUnits : response.data.data
             })
             this.setState({typeUnits:response.data.data})
         }).catch((err)=>{
-            console.log("something went wrong in main dropdown to get units");
             
         })
         
@@ -92,7 +88,6 @@ export default class dropdown extends Component {
         })
     }
     render() {
-        console.log("rendeweeeeeeeeeeee",this.state.typeUnits);
         
         const gettingUnitTypes=this.state.type.map((value,key)=>{
                 return(                    
@@ -105,17 +100,12 @@ export default class dropdown extends Component {
                 <div className="dropdown">
                     <select onChange={this.getUnit}>
                      <option value="N/A">UNIT</option>
-                        {/* <option value="LENGTH">LENGTH</option>
-                        <option value="VOLUME">VOLUME</option>
-                        <option value="MASS">MASS</option>
-                        <option value="TEMPERATURE">TEMPERATURE</option> */} 
+                         
                         {gettingUnitTypes}
                     </select>
                     <Units unitVal={this.state.typeUnits}/>
                 </div>
-                {/* <div className="dropdownChild">
-                    <Units unit={this.state.unit} firstUnit={this.handleFirstUnit} secondUnit={this.handleSecondUnit} />
-                </div> */}
+               
                 <div className="textValue">
 
                     <input type="text" id="tName" name="name" placeholder="value" onChange={this.getValue} />
