@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css'
 import Units from "./dropdownUnitValue"
-import configuration from '../src/configuration/configuration'
+import {configuration,getUnitBasicUnitType,getUnitValues} from '../src/configuration/configuration'
 
 
 export default class dropdown extends Component {
@@ -12,13 +12,38 @@ export default class dropdown extends Component {
             firstUnit: "",
             secondUnit: "",
             unitValue1: 0,
-            result: 0
+            result: 0,
+            type:[],
+            typeUnits:[]
         };
     }
 
+
+    componentWillReceiveProps(props) {
+            this.setState({firstUnit: props.firstUnit})
+            this.setState({secondUnit:props.secondUnit})
+    }
+    
     getUnit = async event => {
         await this.setState({ unit: event.target.value });
+
         console.log("in getUnit--->",this.state.unit);
+        var typeObj = {
+            typeUnits : this.state.unit
+        }
+        console.log("typeOnbyyyyyyyyyyyyyy",typeObj);
+        
+        getUnitBasicUnitType(typeObj)
+        .then(response=>{
+            console.log("response data for second api",response.data.data);
+            this.setState({
+                typeUnits : response.data.data
+            })
+            this.setState({typeUnits:response.data.data})
+        }).catch((err)=>{
+            console.log("something went wrong in main dropdown to get units");
+            
+        })
         
     }
 
@@ -35,7 +60,7 @@ export default class dropdown extends Component {
             secondUnit: this.state.secondUnit,
             unitValue1: this.state.unitValue1
         }
-        console.log("button chicl---------->",data);
+        console.log("button click---------->",data);
         
 
         configuration(data)
@@ -54,23 +79,43 @@ export default class dropdown extends Component {
     handleSecondUnit = (val) => {
         this.setState({ secondUnit: val })
     }
+
+
+  async  componentWillMount(){
+       await getUnitValues().then(response=>{
+            console.log("success ",response.data);
+            this.setState({type:response.data})
+        
+        }).catch(err=>{
+            console.log("something went wrong in main dropdown");
+            
+        })
+    }
     render() {
+        console.log("rendeweeeeeeeeeeee",this.state.typeUnits);
+        
+        const gettingUnitTypes=this.state.type.map((value,key)=>{
+                return(                    
+                <option key={key}>{value}</option>
+                )
+        })
         
         return (
             <div className="dropdownMain">
                 <div className="dropdown">
                     <select onChange={this.getUnit}>
-                        <option value="N/A">UNIT</option>
-                        <option value="0">LENGTH</option>
-                        <option value="1">VOLUME</option>
-                        <option value="2">WEIGHT</option>
-                        <option value="3">TEMPERATURE</option>
+                     <option value="N/A">UNIT</option>
+                        {/* <option value="LENGTH">LENGTH</option>
+                        <option value="VOLUME">VOLUME</option>
+                        <option value="MASS">MASS</option>
+                        <option value="TEMPERATURE">TEMPERATURE</option> */} 
+                        {gettingUnitTypes}
                     </select>
-
+                    <Units unitVal={this.state.typeUnits}/>
                 </div>
-                <div className="dropdownChild">
+                {/* <div className="dropdownChild">
                     <Units unit={this.state.unit} firstUnit={this.handleFirstUnit} secondUnit={this.handleSecondUnit} />
-                </div>
+                </div> */}
                 <div className="textValue">
 
                     <input type="text" id="tName" name="name" placeholder="value" onChange={this.getValue} />

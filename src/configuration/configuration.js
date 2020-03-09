@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-function configuration(data) {
+export function configuration(data) {
     console.log("in axios func--->",data);
 
       return axios({
@@ -10,19 +10,25 @@ function configuration(data) {
         })
 }
 
-function getUnitBasicUnitType() {
-    console.log("in axios");
-
+export function getUnitBasicUnitType(unitVal) {
+    console.log("in axios", unitVal);
+    var unit=unitVal.typeUnits;
+    console.log("confiii",unit);
+    
+    var url= 'http://localhost:4000/findKeys/'+unit
+    //var findUrl=(url.concat(unit))
     return axios({
-        method: 'GET',
-        url: 'http/localhost:3000/find',
-    }).then(response => {
-        console.log("success", response.data);
-    }).catch(err => {
-        console.log("something went wrong in axios function", err);
-    });
-
+        method:"GET",
+        url : url
+    })
 }
 
-export default configuration;
-// export default getUnitBasicUnitType
+
+export function getUnitValues(){
+    
+    return axios({
+        method:'GET',
+        url:'http://localhost:4000/main',
+    })
+    
+}
